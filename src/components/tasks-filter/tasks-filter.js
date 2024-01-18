@@ -1,7 +1,9 @@
-import React from 'react';
-import './tasks-filter.css';
+import React from 'react'
+
+import './tasks-filter.css'
 
 export default class TasksFilter extends React.Component {
+
   state = {
     filtersData: [
       { filterId: 1, className: 'selected' },
@@ -10,6 +12,7 @@ export default class TasksFilter extends React.Component {
     ]
   }
 
+  // фокус фильтр кнопок
   ApplyFilters = (id) => {
     const newState = Array.from(this.state.filtersData)
     newState.forEach((item) => {
@@ -25,6 +28,7 @@ export default class TasksFilter extends React.Component {
 
   render() {
     const [All, Active, Completed] = this.state.filtersData
+
     return (
       <ul className="filters">
         <li>
@@ -46,6 +50,6 @@ export default class TasksFilter extends React.Component {
           }}>Completed</button>
         </li>
       </ul>
-    );
+    )
   }
 }

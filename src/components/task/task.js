@@ -1,6 +1,8 @@
-import formatDistanceToNow from 'date-fns/formatDistanceToNow';
-import React from 'react';
-import './task.css';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+
+import React from 'react'
+
+import './task.css'
 
 export default class Task extends React.Component {
 
@@ -11,7 +13,7 @@ export default class Task extends React.Component {
     return (
       <li className={done ? "completed" : "view"}>
         <div className="view">
-          <input className="toggle" type="checkbox" defaultChecked={done ? "true" : ""} onClick={onClickStatusEdit} /> {/* checked={done ? "true" : ""} */}
+          <input className="toggle" type="checkbox" defaultChecked={done ? "true" : ""} onClick={onClickStatusEdit} />
           <label>
             <span className="description" >{discription}</span>
             <span className="created">{time}</span>
@@ -19,7 +21,7 @@ export default class Task extends React.Component {
           <button className="icon icon-edit"></button>
           <button className="icon icon-destroy" onClick={onClickDelete}></button>
         </div>
-        <input type="text" className="edit" /> {/* value="Editing task" */}
+        <input type="text" className="edit" />
       </li>
     )
   }

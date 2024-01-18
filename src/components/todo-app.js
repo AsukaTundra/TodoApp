@@ -1,8 +1,10 @@
-import React from "react";
-import TaskList from "./task-list";
-import Footer from "./footer";
-import NewTaskForm from "./new-task-form";
-import './todo-app.css';
+import React from "react"
+
+import TaskList from "./task-list"
+import Footer from "./footer"
+import NewTaskForm from "./new-task-form"
+
+import './todo-app.css'
 
 export default class TodoApp extends React.Component {
 
@@ -11,51 +13,56 @@ export default class TodoApp extends React.Component {
     filter: 'All'
   }
 
+  // изменение статуса
   onClickStatusEdit = (id) => {
+    const index = this.state.todoData.findIndex((item) => item.id === id)
+    const done = this.state.todoData[index].done
+    const newArray = Array.from(this.state.todoData)
+    newArray[index].done = !done
     this.setState(() => {
-      const itemIndex = this.state.todoData.findIndex((item) => item.id === id)
-      const itemDone = this.state.todoData[itemIndex].done
-      const newArray = Array.from(this.state.todoData)
-      newArray[itemIndex].done = !itemDone
       return {
         todoData: newArray
       }
     })
   }
 
+  // удаление
   onClickDelete = (id) => {
+    const index = this.state.todoData.findIndex((item) => item.id === id)
+    const firstPart = this.state.todoData.slice(0, index)
+    const lastPart = this.state.todoData.slice(index + 1)
     this.setState(() => {
-      const itemIndex = this.state.todoData.findIndex((item) => item.id === id)
-      const firstPart = this.state.todoData.slice(0, itemIndex)
-      const lastPart = this.state.todoData.slice(itemIndex + 1)
       return {
         todoData: [...firstPart, ...lastPart]
       }
     })
   }
 
+  // создание
   onClickCreate = (discription) => {
+    // генерация свободного id
     const findFreeId = () => {
       let idList = []
+      let i = 1
       for (let i = 0; i < this.state.todoData.length; i++) {
         idList.push(this.state.todoData[i].id)
       }
-      let i = 1
       while (idList.includes(i)) {
         i++
       }
       return i
     }
 
+    const oldArray = Array.from(this.state.todoData)
+    const newItem = { id: findFreeId(), done: false, discription: discription, timeCreated: Date.now() }
     this.setState(() => {
-      const oldArray = Array.from(this.state.todoData)
-      const newItem = { id: findFreeId(), done: false, discription: discription, timeCreated: Date.now() }
       return {
         todoData: [newItem, ...oldArray]
       }
     })
   }
 
+  // удаление выполненных
   onClickClearCompleted = (howItemLeft) => {
     this.setState(() => {
       return {
@@ -64,6 +71,7 @@ export default class TodoApp extends React.Component {
     })
   }
 
+  // фильтр All
   onClickFilterAll = () => {
     this.setState(() => {
       return {
@@ -72,6 +80,7 @@ export default class TodoApp extends React.Component {
     })
   }
 
+  // фильтр Active
   onClickFilterActive = () => {
     this.setState(() => {
       return {
@@ -80,6 +89,7 @@ export default class TodoApp extends React.Component {
     })
   }
 
+  // фильтр Completed
   onClickFilterCompleted = () => {
     this.setState(() => {
       return {
@@ -89,12 +99,15 @@ export default class TodoApp extends React.Component {
   }
 
   render() {
+    // n* item completed
     const howItemLeft = this.state.todoData.filter((item) => item.done === false)
+
     return (
       <section className="todoapp">
         <header className="header">
           <h1>todos</h1>
-          <NewTaskForm onClickCreate={this.onClickCreate} />
+          <NewTaskForm 
+          onClickCreate={this.onClickCreate} />
         </header>
         <section className="main">
           <TaskList

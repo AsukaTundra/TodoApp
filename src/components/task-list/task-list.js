@@ -1,5 +1,6 @@
-import Task from "../task/task";
-import './task-list.css';
+import Task from "../task/task"
+
+import './task-list.css'
 
 const TaskList = ({ todoData, filter, onClickStatusEdit, onClickDelete }) => {
   
@@ -10,6 +11,7 @@ const TaskList = ({ todoData, filter, onClickStatusEdit, onClickDelete }) => {
       onClickDelete={() => onClickDelete(id)} />
   })
   
+  // применение фильтра
   if (filter === 'Active') {
     elements = elements.filter((item) => item.props.done === false)
   } else if (filter === 'Completed') {
@@ -20,7 +22,7 @@ const TaskList = ({ todoData, filter, onClickStatusEdit, onClickDelete }) => {
     <ul className="todo-list">
       {elements}
     </ul>
-  );
-};
+  )
+}
 
-export default TaskList;
+export default TaskList

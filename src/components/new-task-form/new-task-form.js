@@ -1,8 +1,10 @@
-import React from 'react';
-import './new-task-form.css';
+import React from 'react'
+
+import './new-task-form.css'
 
 export default class NewTaskForm extends React.Component {
 
+  // Создание элемента на Enter
   onClickEnter = (e) => {
     if (e.keyCode === 13) {
       this.props.onClickCreate(e.target.value)
@@ -11,6 +13,7 @@ export default class NewTaskForm extends React.Component {
   }
 
   render() {
+    
     return (
       <input className="new-todo"
         placeholder="What needs to be done?"
@@ -18,4 +21,4 @@ export default class NewTaskForm extends React.Component {
         onKeyDown={this.onClickEnter} />
     )
   }
-};
+}
