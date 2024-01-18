@@ -1,11 +1,15 @@
 import TasksFilter from '../tasks-filter'
+import './footer.css';
 
-const Footer = () => {
+const Footer = ({ howItemLeft, onClickClearCompleted, onClickFilterAll, onClickFilterActive, onClickFilterCompleted }) => {
   return (
     <footer className="footer">
-      <span className="todo-count">1 items left</span>
-      <TasksFilter />
-      <button className="clear-completed">Clear completed</button>
+      <span className="todo-count">{howItemLeft.length} items left</span>
+      <TasksFilter
+      onClickFilterAll={onClickFilterAll}
+      onClickFilterActive={onClickFilterActive}
+      onClickFilterCompleted={onClickFilterCompleted} />
+      <button className="clear-completed" onClick={() => onClickClearCompleted(howItemLeft)}>Clear completed</button>
     </footer>
   );
 };

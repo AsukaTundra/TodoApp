@@ -1,21 +1,26 @@
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import React from 'react';
+import './task.css';
 
-const Task = ({ item }) => {
-  const time = formatDistanceToNow(item.timeCreated , { addSuffix: true })
-  return (
-    <li className={ item.currentStatus }>
-      <div className="view">
-        <input className="toggle" type="checkbox" />
-        <label>
-          <span className="description">{ item.discription }</span>
-          <span className="created">{ time }</span>
-        </label>
-        <button className="icon icon-edit"></button>
-        <button className="icon icon-destroy"></button>
-      </div>
-      <input type="text" className="edit" value="Editing task" /> {/* вызывает ошибку */}
-    </li>
-  );
-};
+export default class Task extends React.Component {
 
-export default Task;
+  render() {
+    const { done, discription, timeCreated, onClickStatusEdit, onClickDelete } = this.props
+    const time = formatDistanceToNow(timeCreated, { addSuffix: true })
+
+    return (
+      <li className={done ? "completed" : "view"}>
+        <div className="view">
+          <input className="toggle" type="checkbox" defaultChecked={done ? "true" : ""} onClick={onClickStatusEdit} /> {/* checked={done ? "true" : ""} */}
+          <label>
+            <span className="description" >{discription}</span>
+            <span className="created">{time}</span>
+          </label>
+          <button className="icon icon-edit"></button>
+          <button className="icon icon-destroy" onClick={onClickDelete}></button>
+        </div>
+        <input type="text" className="edit" /> {/* value="Editing task" */}
+      </li>
+    )
+  }
+}

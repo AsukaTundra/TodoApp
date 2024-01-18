@@ -1,15 +1,24 @@
 import Task from "../task/task";
+import './task-list.css';
 
-const TaskList = ({ todos }) => {
+const TaskList = ({ todoData, filter, onClickStatusEdit, onClickDelete }) => {
   
-  const elements = todos.map((item) => {
-    const { id, ...itemNotId } = item;
-    return <Task key={ id } item={ itemNotId }/>
+  let elements = todoData.map((item) => {
+    const { id, ...todos } = item;
+    return <Task key={id} {...todos}
+      onClickStatusEdit={() => onClickStatusEdit(id)}
+      onClickDelete={() => onClickDelete(id)} />
   })
+  
+  if (filter === 'Active') {
+    elements = elements.filter((item) => item.props.done === false)
+  } else if (filter === 'Completed') {
+    elements = elements.filter((item) => item.props.done === true)
+  }
 
   return (
     <ul className="todo-list">
-      { elements }
+      {elements}
     </ul>
   );
 };
