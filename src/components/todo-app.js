@@ -1,10 +1,9 @@
 import React from "react"
 
+import './todo-app.css'
 import TaskList from "./task-list"
 import Footer from "./footer"
 import NewTaskForm from "./new-task-form"
-
-import './todo-app.css'
 
 export default class TodoApp extends React.Component {
 
@@ -13,12 +12,21 @@ export default class TodoApp extends React.Component {
     filter: 'All'
   }
 
+  // две внутренние функции
+  funcFindIndex = (id) => {
+    return this.state.todoData.findIndex((item) => item.id === id)
+  }
+
+  funcCloneStateData = () => {
+    return JSON.parse(JSON.stringify(this.state.todoData))
+  }
+
   // изменение статуса
-  onClickStatusEdit = (id) => {
-    const index = this.state.todoData.findIndex((item) => item.id === id)
-    const done = this.state.todoData[index].done
-    const newArray = Array.from(this.state.todoData)
-    newArray[index].done = !done
+  statusEdit = (id) => {
+    const index = this.funcFindIndex(id)
+    const className = this.state.todoData[index].className
+    const newArray = this.funcCloneStateData()
+    className === 'view' ? newArray[index].className = 'completed' : newArray[index].className = 'view'
     this.setState(() => {
       return {
         todoData: newArray
@@ -26,9 +34,33 @@ export default class TodoApp extends React.Component {
     })
   }
 
+  // редактирование
+  discriptionEdit = (id, newDiscription) => {
+    const index = this.funcFindIndex(id)
+    const newArray = this.funcCloneStateData()
+    if (newArray[index].className !== 'completed') {
+      if (typeof newDiscription === 'string') {
+        newArray[index].className = 'view'
+        newArray[index].discription = newDiscription
+        this.setState(() => {
+          return {
+            todoData: newArray
+          }
+        })
+      } else {
+        newArray[index].className = 'editing'
+        this.setState(() => {
+          return {
+            todoData: newArray
+          }
+        })
+      }
+    }
+  }
+
   // удаление
-  onClickDelete = (id) => {
-    const index = this.state.todoData.findIndex((item) => item.id === id)
+  delete = (id) => {
+    const index = this.funcFindIndex(id)
     const firstPart = this.state.todoData.slice(0, index)
     const lastPart = this.state.todoData.slice(index + 1)
     this.setState(() => {
@@ -39,8 +71,8 @@ export default class TodoApp extends React.Component {
   }
 
   // создание
-  onClickCreate = (discription) => {
-    // генерация свободного id
+  create = (discription) => {
+    // поиск свободного id
     const findFreeId = () => {
       let idList = []
       let i = 1
@@ -53,8 +85,8 @@ export default class TodoApp extends React.Component {
       return i
     }
 
-    const oldArray = Array.from(this.state.todoData)
-    const newItem = { id: findFreeId(), done: false, discription: discription, timeCreated: Date.now() }
+    const oldArray = this.funcCloneStateData()
+    const newItem = { id: findFreeId(), className: 'view', discription: discription, timeCreated: Date.now() }
     this.setState(() => {
       return {
         todoData: [newItem, ...oldArray]
@@ -63,7 +95,7 @@ export default class TodoApp extends React.Component {
   }
 
   // удаление выполненных
-  onClickClearCompleted = (howItemLeft) => {
+  clearCompleted = (howItemLeft) => {
     this.setState(() => {
       return {
         todoData: [...howItemLeft]
@@ -71,56 +103,37 @@ export default class TodoApp extends React.Component {
     })
   }
 
-  // фильтр All
-  onClickFilterAll = () => {
+  // фильтр
+  filter = (valueFilter) => {
     this.setState(() => {
       return {
-        filter: 'All'
-      }
-    })
-  }
-
-  // фильтр Active
-  onClickFilterActive = () => {
-    this.setState(() => {
-      return {
-        filter: 'Active'
-      }
-    })
-  }
-
-  // фильтр Completed
-  onClickFilterCompleted = () => {
-    this.setState(() => {
-      return {
-        filter: 'Completed'
+        filter: valueFilter
       }
     })
   }
 
   render() {
-    // n* item completed
-    const howItemLeft = this.state.todoData.filter((item) => item.done === false)
+    // n? items left
+    const howItemLeft = this.state.todoData.filter((item) => item.className === 'view' || item.className === 'editing')
 
     return (
       <section className="todoapp">
         <header className="header">
           <h1>todos</h1>
-          <NewTaskForm 
-          onClickCreate={this.onClickCreate} />
+          <NewTaskForm
+            onClickCreate={this.create} />
         </header>
         <section className="main">
           <TaskList
             todoData={this.state.todoData}
             filter={this.state.filter}
-            onClickStatusEdit={this.onClickStatusEdit}
-            onClickDelete={this.onClickDelete} />
+            onClickStatusEdit={this.statusEdit}
+            onClickDiscriptionEdit={this.discriptionEdit}
+            onClickDelete={this.delete} />
           <Footer
             howItemLeft={howItemLeft}
-            onClickClearCompleted={this.onClickClearCompleted}
-            onClickFilterAll={this.onClickFilterAll}
-            onClickFilterActive={this.onClickFilterActive}
-            onClickFilterCompleted={this.onClickFilterCompleted} />
+            onClickClearCompleted={this.clearCompleted}
+            onClickFilter={this.filter} />
         </section>
       </section>
     )

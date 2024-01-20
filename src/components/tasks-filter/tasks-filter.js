@@ -32,24 +32,31 @@ export default class TasksFilter extends React.Component {
     return (
       <ul className="filters">
         <li>
-          <button className={All.className} onClick={() => {
-            this.props.onClickFilterAll()
+          <button className={All.className} 
+          onClick={() => {
+            this.props.onClickFilter('All')
             this.ApplyFilters(1)
           }}>All</button>
         </li>
         <li>
-          <button className={Active.className} onClick={() => {
-            this.props.onClickFilterActive()
+          <button className={Active.className} 
+          onClick={() => {
+            this.props.onClickFilter('Active')
             this.ApplyFilters(2)
           }}>Active</button>
         </li>
         <li>
-          <button className={Completed.className} onClick={() => {
-            this.props.onClickFilterCompleted()
+          <button className={Completed.className} 
+          onClick={() => {
+            this.props.onClickFilter('Completed')
             this.ApplyFilters(3)
           }}>Completed</button>
         </li>
       </ul>
     )
+  }
+
+  static defaultProps = {
+    onClickFilter: () => {}
   }
 }
