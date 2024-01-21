@@ -1,62 +1,76 @@
-import React from 'react'
+import React from 'react';
 
-import './tasks-filter.css'
+import './tasks-filter.css';
 
 export default class TasksFilter extends React.Component {
-
-  state = {
-    filtersData: [
-      { filterId: 1, className: 'selected' },
-      { filterId: 2, className: null },
-      { filterId: 3, className: null }
-    ]
+  constructor() {
+    super();
+    this.state = {
+      filtersData: [
+        { filterId: 1, className: 'selected' },
+        { filterId: 2, className: '' },
+        { filterId: 3, className: '' },
+      ],
+    };
   }
 
   // фокус фильтр кнопок
   ApplyFilters = (id) => {
-    const newState = Array.from(this.state.filtersData)
+    const newState = Array.from(this.state.filtersData);
     newState.forEach((item) => {
-      item.className = null
-    })
-    newState[id - 1].className = 'selected'
+      item.className = null;
+    });
+    newState[id - 1].className = 'selected';
     this.setState(() => {
       return {
-        filtersData: [...newState]
-      }
-    })
-  }
+        filtersData: [...newState],
+      };
+    });
+  };
 
   render() {
-    const [All, Active, Completed] = this.state.filtersData
+    const [All, Active, Completed] = this.state.filtersData;
 
     return (
       <ul className="filters">
         <li>
-          <button className={All.className} 
-          onClick={() => {
-            this.props.onClickFilter('All')
-            this.ApplyFilters(1)
-          }}>All</button>
+          <button
+            type="button"
+            className={All.className}
+            onClick={() => {
+              this.props.onClickFilter('All');
+              this.ApplyFilters(1);
+            }}>
+            All
+          </button>
         </li>
         <li>
-          <button className={Active.className} 
-          onClick={() => {
-            this.props.onClickFilter('Active')
-            this.ApplyFilters(2)
-          }}>Active</button>
+          <button
+            type="button"
+            className={Active.className}
+            onClick={() => {
+              this.props.onClickFilter('Active');
+              this.ApplyFilters(2);
+            }}>
+            Active
+          </button>
         </li>
         <li>
-          <button className={Completed.className} 
-          onClick={() => {
-            this.props.onClickFilter('Completed')
-            this.ApplyFilters(3)
-          }}>Completed</button>
+          <button
+            type="button"
+            className={Completed.className}
+            onClick={() => {
+              this.props.onClickFilter('Completed');
+              this.ApplyFilters(3);
+            }}>
+            Completed
+          </button>
         </li>
       </ul>
-    )
-  }
-
-  static defaultProps = {
-    onClickFilter: () => {}
+    );
   }
 }
+
+TasksFilter.defaultProps = {
+  onClickFilter: () => {},
+};

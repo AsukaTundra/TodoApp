@@ -1,27 +1,30 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
-import './footer.css'
-import TasksFilter from '../tasks-filter'
+import './footer.css';
+import TasksFilter from '../tasks-filter';
 
-const Footer = ({ howItemLeft, onClickClearCompleted, onClickFilter }) => {
-
+function Footer({ howItemLeft, onClickClearCompleted, onClickFilter }) {
   return (
     <footer className="footer">
       <span className="todo-count">{howItemLeft.length} items left</span>
-      <TasksFilter
-        onClickFilter={onClickFilter} />
-      <button className="clear-completed" onClick={() => onClickClearCompleted(howItemLeft)}>Clear completed</button>
+      <TasksFilter onClickFilter={onClickFilter} />
+      <button type="button" className="clear-completed" onClick={() => onClickClearCompleted(howItemLeft)}>
+        Clear completed
+      </button>
     </footer>
-  )
+  );
 }
 
 Footer.defaultProps = {
+  howItemLeft: [],
   onClickClearCompleted: () => {},
-  onClickFilter: () => {}
-}
+  onClickFilter: () => {},
+};
 
 Footer.propTypes = {
-  howItemLeft: PropTypes.array
-}
+  howItemLeft: PropTypes.arrayOf(PropTypes.object),
+  onClickClearCompleted: PropTypes.func,
+  onClickFilter: PropTypes.func,
+};
 
-export default Footer
+export default Footer;
