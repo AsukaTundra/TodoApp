@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './tasks-filter.css';
 
@@ -38,7 +39,7 @@ export default class TasksFilter extends React.Component {
             type="button"
             className={All.className}
             onClick={() => {
-              this.props.onClickFilter('All');
+              this.props.eventFilter('All');
               this.ApplyFilters(1);
             }}>
             All
@@ -49,7 +50,7 @@ export default class TasksFilter extends React.Component {
             type="button"
             className={Active.className}
             onClick={() => {
-              this.props.onClickFilter('Active');
+              this.props.eventFilter('Active');
               this.ApplyFilters(2);
             }}>
             Active
@@ -60,7 +61,7 @@ export default class TasksFilter extends React.Component {
             type="button"
             className={Completed.className}
             onClick={() => {
-              this.props.onClickFilter('Completed');
+              this.props.eventFilter('Completed');
               this.ApplyFilters(3);
             }}>
             Completed
@@ -72,5 +73,9 @@ export default class TasksFilter extends React.Component {
 }
 
 TasksFilter.defaultProps = {
-  onClickFilter: () => {},
+  eventFilter: () => {},
+};
+
+TasksFilter.propTypes = {
+  eventFilter: PropTypes.func,
 };

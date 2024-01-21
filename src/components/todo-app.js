@@ -24,7 +24,7 @@ export default class TodoApp extends React.Component {
   };
 
   // изменение статуса
-  statusEdit = (id) => {
+  eventStatusEdit = (id) => {
     const index = this.funcFindIndex(id);
     const { className } = this.state.todoData[index];
     const newArray = this.funcCloneStateData();
@@ -38,7 +38,7 @@ export default class TodoApp extends React.Component {
   };
 
   // редактирование
-  discriptionEdit = (id, newDiscription) => {
+  eventDiscriptionEdit = (id, newDiscription) => {
     const index = this.funcFindIndex(id);
     const newArray = this.funcCloneStateData();
     if (newArray[index].className !== 'completed') {
@@ -62,7 +62,7 @@ export default class TodoApp extends React.Component {
   };
 
   // удаление
-  delete = (id) => {
+  eventDelete = (id) => {
     const index = this.funcFindIndex(id);
     const firstPart = this.state.todoData.slice(0, index);
     const lastPart = this.state.todoData.slice(index + 1);
@@ -74,7 +74,7 @@ export default class TodoApp extends React.Component {
   };
 
   // создание
-  create = (discription) => {
+  eventCreate = (discription) => {
     // поиск свободного id
     const findFreeId = () => {
       const idList = [];
@@ -98,7 +98,7 @@ export default class TodoApp extends React.Component {
   };
 
   // удаление выполненных
-  clearCompleted = (howItemLeft) => {
+  eventClearCompleted = (howItemLeft) => {
     this.setState(() => {
       return {
         todoData: [...howItemLeft],
@@ -107,7 +107,7 @@ export default class TodoApp extends React.Component {
   };
 
   // фильтр
-  filter = (valueFilter) => {
+  eventFilter = (valueFilter) => {
     this.setState(() => {
       return {
         filter: valueFilter,
@@ -122,17 +122,21 @@ export default class TodoApp extends React.Component {
       <section className="todoapp">
         <header className="header">
           <h1>todos</h1>
-          <NewTaskForm onClickCreate={this.create} />
+          <NewTaskForm eventCreate={this.eventCreate} />
         </header>
         <section className="main">
           <TaskList
             todoData={this.state.todoData}
             filter={this.state.filter}
-            onClickStatusEdit={this.statusEdit}
-            onClickDiscriptionEdit={this.discriptionEdit}
-            onClickDelete={this.delete}
+            eventStatusEdit={this.eventStatusEdit}
+            eventDiscriptionEdit={this.eventDiscriptionEdit}
+            eventDelete={this.eventDelete}
           />
-          <Footer howItemLeft={howItemLeft} onClickClearCompleted={this.clearCompleted} onClickFilter={this.filter} />
+          <Footer
+            howItemLeft={howItemLeft}
+            eventClearCompleted={this.eventClearCompleted}
+            eventFilter={this.eventFilter}
+          />
         </section>
       </section>
     );

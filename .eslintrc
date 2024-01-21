@@ -46,7 +46,9 @@
         "parser": "flow",
         "trailingComma": "es5",
         "endOfLine": "auto",
-        "printWidth": 120
+        "printWidth": 120,
+        "bracketSpacing": true,
+        "bracketSameLine": true
       }
     ]
   },

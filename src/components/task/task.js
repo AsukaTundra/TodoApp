@@ -1,15 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
 import './task.css';
 
-function Task({ className, discription, timeCreated, onClickStatusEdit, onClickDiscriptionEdit, onClickDelete }) {
+function Task({ className, discription, timeCreated, eventStatusEdit, eventDiscriptionEdit, eventDelete }) {
   const time = formatDistanceToNow(timeCreated, { addSuffix: true });
 
-  // enter вызывает функцию с новым значением
-  const onClickEnter = (e) => {
+  // нажатие Enter
+  const eventEnter = (e) => {
     if (e.keyCode === 13) {
-      onClickDiscriptionEdit(e.target.value);
+      eventDiscriptionEdit(e.target.value);
     }
   };
 
@@ -20,16 +21,16 @@ function Task({ className, discription, timeCreated, onClickStatusEdit, onClickD
           className="toggle"
           type="checkbox"
           defaultChecked={className === 'view' ? '' : 'true'}
-          onClick={onClickStatusEdit}
+          onClick={eventStatusEdit}
         />
         <label htmlFor="task">
           <span className="description">{discription}</span>
           <span className="created">{time}</span>
         </label>
-        <button type="button" aria-label="Edit" className="icon icon-edit" onClick={onClickDiscriptionEdit} />
-        <button type="button" aria-label="Destroy" className="icon icon-destroy" onClick={onClickDelete} />
+        <button type="button" aria-label="Edit" className="icon icon-edit" onClick={eventDiscriptionEdit} />
+        <button type="button" aria-label="Destroy" className="icon icon-destroy" onClick={eventDelete} />
       </div>
-      <input type="text" className="edit" defaultValue={discription} onKeyDown={onClickEnter} />
+      <input type="text" className="edit" defaultValue={discription} onKeyDown={eventEnter} />
     </li>
   );
 }
@@ -38,9 +39,18 @@ Task.defaultProps = {
   className: 'view',
   discription: '',
   timeCreated: Date.now(),
-  onClickStatusEdit: () => {},
-  onClickDiscriptionEdit: () => {},
-  onClickDelete: () => {},
+  eventStatusEdit: () => {},
+  eventDiscriptionEdit: () => {},
+  eventDelete: () => {},
+};
+
+Task.propTypes = {
+  className: PropTypes.string,
+  discription: PropTypes.string,
+  timeCreated: PropTypes.number,
+  eventStatusEdit: PropTypes.func,
+  eventDiscriptionEdit: PropTypes.func,
+  eventDelete: PropTypes.func,
 };
 
 export default Task;

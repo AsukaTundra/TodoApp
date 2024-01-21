@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './task-list.css';
 import Task from '../task/task';
 
-function TaskList({ todoData, filter, onClickStatusEdit, onClickDiscriptionEdit, onClickDelete }) {
+function TaskList({ todoData, filter, eventStatusEdit, eventDiscriptionEdit, eventDelete }) {
   // создаем отображаемые элементы
   let elements = todoData.map((item) => {
     const { id, className, discription, timeCreated } = item;
@@ -13,9 +13,9 @@ function TaskList({ todoData, filter, onClickStatusEdit, onClickDiscriptionEdit,
         className={className}
         discription={discription}
         timeCreated={timeCreated}
-        onClickStatusEdit={() => onClickStatusEdit(id)}
-        onClickDiscriptionEdit={(newDiscription) => onClickDiscriptionEdit(id, newDiscription)}
-        onClickDelete={() => onClickDelete(id)}
+        eventStatusEdit={() => eventStatusEdit(id)}
+        eventDiscriptionEdit={(newDiscription) => eventDiscriptionEdit(id, newDiscription)}
+        eventDelete={() => eventDelete(id)}
       />
     );
   });
@@ -32,16 +32,16 @@ function TaskList({ todoData, filter, onClickStatusEdit, onClickDiscriptionEdit,
 
 TaskList.defaultProps = {
   filter: 'All',
-  onClickStatusEdit: () => {},
-  onClickDiscriptionEdit: () => {},
-  onClickDelete: () => {},
+  eventStatusEdit: () => {},
+  eventDiscriptionEdit: () => {},
+  eventDelete: () => {},
 };
 
 TaskList.propTypes = {
   filter: PropTypes.string,
-  onClickStatusEdit: PropTypes.func,
-  onClickDiscriptionEdit: PropTypes.func,
-  onClickDelete: PropTypes.func,
+  eventStatusEdit: PropTypes.func,
+  eventDiscriptionEdit: PropTypes.func,
+  eventDelete: PropTypes.func,
 };
 
 export default TaskList;

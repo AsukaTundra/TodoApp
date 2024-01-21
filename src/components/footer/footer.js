@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import './footer.css';
 import TasksFilter from '../tasks-filter';
 
-function Footer({ howItemLeft, onClickClearCompleted, onClickFilter }) {
+function Footer({ howItemLeft, eventClearCompleted, eventFilter }) {
   return (
     <footer className="footer">
       <span className="todo-count">{howItemLeft.length} items left</span>
-      <TasksFilter onClickFilter={onClickFilter} />
-      <button type="button" className="clear-completed" onClick={() => onClickClearCompleted(howItemLeft)}>
+      <TasksFilter eventFilter={eventFilter} />
+      <button type="button" className="clear-completed" onClick={() => eventClearCompleted(howItemLeft)}>
         Clear completed
       </button>
     </footer>
@@ -17,14 +17,14 @@ function Footer({ howItemLeft, onClickClearCompleted, onClickFilter }) {
 
 Footer.defaultProps = {
   howItemLeft: [],
-  onClickClearCompleted: () => {},
-  onClickFilter: () => {},
+  eventClearCompleted: () => {},
+  eventFilter: () => {},
 };
 
 Footer.propTypes = {
   howItemLeft: PropTypes.arrayOf(PropTypes.object),
-  onClickClearCompleted: PropTypes.func,
-  onClickFilter: PropTypes.func,
+  eventClearCompleted: PropTypes.func,
+  eventFilter: PropTypes.func,
 };
 
 export default Footer;
