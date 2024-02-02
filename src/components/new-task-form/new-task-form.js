@@ -13,7 +13,13 @@ export default class NewTaskForm extends React.Component {
   };
 
   render() {
-    return <input className="new-todo" placeholder="What needs to be done?" onKeyDown={this.eventEnter} />;
+    return (
+      <form className="new-todo-form">
+        <input className="new-todo" placeholder="What needs to be done?" onKeyDown={this.eventEnter} />
+        <input className="new-todo-form__timer" placeholder="Min" />
+        <input className="new-todo-form__timer" placeholder="Sec" />
+      </form>
+    );
   }
 }
 

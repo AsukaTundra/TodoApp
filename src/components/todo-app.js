@@ -88,13 +88,15 @@ export default class TodoApp extends React.Component {
       return i;
     };
 
-    const oldArray = this.funcCloneStateData();
-    const newItem = { id: findFreeId(), className: 'view', discription, timeCreated: Date.now() };
-    this.setState(() => {
-      return {
-        todoData: [newItem, ...oldArray],
-      };
-    });
+    if (discription.trim()) {
+      const oldArray = this.funcCloneStateData();
+      const newItem = { id: findFreeId(), className: 'view', discription, timeCreated: Date.now() };
+      this.setState(() => {
+        return {
+          todoData: [newItem, ...oldArray],
+        };
+      });
+    }
   };
 
   // удаление выполненных

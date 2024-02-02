@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
 import PropTypes from 'prop-types';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
@@ -24,7 +25,12 @@ function Task({ className, discription, timeCreated, eventStatusEdit, eventDiscr
           onClick={eventStatusEdit}
         />
         <label htmlFor="task">
-          <span className="description">{discription}</span>
+          <span className="title">{discription}</span>
+          <span className="description">
+            <button type="button" className="icon icon-play" />
+            <button type="button" className="icon icon-pause" />
+            <p className="timer">12:25</p>
+          </span>
           <span className="created">{time}</span>
         </label>
         <button type="button" aria-label="Edit" className="icon icon-edit" onClick={eventDiscriptionEdit} />
