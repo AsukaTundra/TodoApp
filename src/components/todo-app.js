@@ -74,7 +74,7 @@ export default class TodoApp extends React.Component {
   };
 
   // создание
-  eventCreate = (discription) => {
+  eventCreate = (discription, todoTimerMin, todoTimerSec) => {
     // поиск свободного id
     const findFreeId = () => {
       const idList = [];
@@ -87,10 +87,16 @@ export default class TodoApp extends React.Component {
       }
       return i;
     };
-
     if (discription.trim()) {
       const oldArray = this.funcCloneStateData();
-      const newItem = { id: findFreeId(), className: 'view', discription, timeCreated: Date.now() };
+      const newItem = {
+        id: findFreeId(),
+        className: 'view',
+        discription,
+        timeCreated: Date.now(),
+        todoTimerMin,
+        todoTimerSec,
+      };
       this.setState(() => {
         return {
           todoData: [newItem, ...oldArray],

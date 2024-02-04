@@ -4,20 +4,64 @@ import PropTypes from 'prop-types';
 import './new-task-form.css';
 
 export default class NewTaskForm extends React.Component {
-  // нажатие Enter
-  eventEnter = (e) => {
+  constructor() {
+    super();
+    this.state = {
+      todoTitle: '',
+      todoTimerMin: '',
+      todoTimerSec: '',
+    };
+  }
+
+  eventEnter = (e, todoTitle, todoTimerMin = 0, todoTimerSec = 0) => {
     if (e.keyCode === 13) {
-      this.props.eventCreate(e.target.value);
-      e.target.value = '';
+      if (
+        todoTitle &&
+        (Number(todoTimerMin) || Number(todoTimerMin) === 0) &&
+        (Number(todoTimerSec) || Number(todoTimerSec) === 0)
+      ) {
+        this.props.eventCreate(todoTitle, Number(todoTimerMin) + Math.floor(todoTimerSec / 60), todoTimerSec % 60);
+        this.setState({
+          todoTitle: '',
+          todoTimerMin: '',
+          todoTimerSec: '',
+        });
+      } else {
+        // eslint-disable-next-line no-alert
+        alert('Invalid task data');
+      }
     }
   };
 
+  constrolledInput = (e, element) => {
+    this.setState({
+      [element]: e.target.value,
+    });
+  };
+
   render() {
+    const { todoTitle, todoTimerMin, todoTimerSec } = this.state;
     return (
-      <form className="new-todo-form">
-        <input className="new-todo" placeholder="What needs to be done?" onKeyDown={this.eventEnter} />
-        <input className="new-todo-form__timer" placeholder="Min" />
-        <input className="new-todo-form__timer" placeholder="Sec" />
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+      <form className="new-todo-form" onKeyDown={(e) => this.eventEnter(e, todoTitle, todoTimerMin, todoTimerSec)}>
+        <input
+          className="new-todo"
+          placeholder="What needs to be done?"
+          value={this.state.todoTitle}
+          onChange={(e) => this.constrolledInput(e, 'todoTitle')}
+        />
+        <input
+          className="new-todo-form__timer"
+          placeholder="Min"
+          value={this.state.todoTimerMin}
+          onChange={(e) => this.constrolledInput(e, 'todoTimerMin')}
+        />
+        <input
+          className="new-todo-form__timer"
+          placeholder="Sec"
+          value={this.state.todoTimerSec}
+          onChange={(e) => this.constrolledInput(e, 'todoTimerSec')}
+        />
       </form>
     );
   }

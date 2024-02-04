@@ -5,14 +5,17 @@ import Task from '../task/task';
 
 function TaskList({ todoData, filter, eventStatusEdit, eventDiscriptionEdit, eventDelete }) {
   // создаем отображаемые элементы
-  let elements = todoData.map((item) => {
-    const { id, className, discription, timeCreated } = item;
+  const elements = todoData.map((item) => {
+    const { id, className, discription, timeCreated, todoTimerMin, todoTimerSec } = item;
     return (
       <Task
         key={id}
+        filter={filter}
         className={className}
         discription={discription}
         timeCreated={timeCreated}
+        todoTimerMin={todoTimerMin}
+        todoTimerSec={todoTimerSec}
         eventStatusEdit={() => eventStatusEdit(id)}
         eventDiscriptionEdit={(newDiscription) => eventDiscriptionEdit(id, newDiscription)}
         eventDelete={() => eventDelete(id)}
@@ -20,17 +23,11 @@ function TaskList({ todoData, filter, eventStatusEdit, eventDiscriptionEdit, eve
     );
   });
 
-  // применяем фильтр
-  if (filter === 'Active') {
-    elements = elements.filter((item) => item.props.className === 'view' || item.props.className === 'editing');
-  } else if (filter === 'Completed') {
-    elements = elements.filter((item) => item.props.className === 'completed' || item.props.className === 'editing');
-  }
-
   return <ul className="todo-list">{elements}</ul>;
 }
 
 TaskList.defaultProps = {
+  todoData: [],
   filter: 'All',
   eventStatusEdit: () => {},
   eventDiscriptionEdit: () => {},
@@ -38,6 +35,7 @@ TaskList.defaultProps = {
 };
 
 TaskList.propTypes = {
+  todoData: PropTypes.array,
   filter: PropTypes.string,
   eventStatusEdit: PropTypes.func,
   eventDiscriptionEdit: PropTypes.func,
