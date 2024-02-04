@@ -18,7 +18,8 @@ export default class NewTaskForm extends React.Component {
       if (
         todoTitle &&
         (Number(todoTimerMin) || Number(todoTimerMin) === 0) &&
-        (Number(todoTimerSec) || Number(todoTimerSec) === 0)
+        (Number(todoTimerSec) || Number(todoTimerSec) === 0) &&
+        (todoTimerMin.length <= 3 || todoTimerSec <= 3)
       ) {
         this.props.eventCreate(todoTitle, Number(todoTimerMin) + Math.floor(todoTimerSec / 60), todoTimerSec % 60);
         this.setState({

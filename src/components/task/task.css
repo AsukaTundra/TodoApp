@@ -58,7 +58,7 @@
 
 .todo-list li label .description {
   min-width: 40px;
-  margin: 0 5px;
+  margin: 0 0 0 10px;
   font-size: 13px;
 	color: gray;
 }

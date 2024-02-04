@@ -117,6 +117,7 @@ export default class Task extends React.Component {
           <input className="toggle" type="checkbox" checked={className !== 'view'} onClick={eventStatusEdit} readOnly />
           <label htmlFor="task">
             <span className="title">{discription}</span>
+            <span className="created">{time}</span>
             <span className="description">
               <button
                 aria-label="button-play"
@@ -135,7 +136,6 @@ export default class Task extends React.Component {
                 {timerSec.toString().length === 1 ? `0${timerSec}` : timerSec}
               </p>
             </span>
-            <span className="created">{time}</span>
           </label>
           <button type="button" aria-label="Edit" className="icon icon-edit" onClick={eventDiscriptionEdit} />
           <button type="button" aria-label="Destroy" className="icon icon-destroy" onClick={eventDelete} />
