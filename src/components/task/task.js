@@ -23,6 +23,16 @@ export default class Task extends React.Component {
     });
   }
 
+  componentDidUpdate() {
+    if (this.props.className === 'completed' && this.state.timerMin + this.state.timerSec !== 0) {
+      this.setState({
+        timerMin: 0,
+        timerSec: 0,
+        timer: false,
+      });
+    }
+  }
+
   componentWillUnmount() {
     clearTimeout(this.timerTimeout);
   }

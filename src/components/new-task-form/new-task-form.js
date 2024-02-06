@@ -13,13 +13,13 @@ export default class NewTaskForm extends React.Component {
     };
   }
 
-  eventEnter = (e, todoTitle, todoTimerMin = 0, todoTimerSec = 0) => {
+  eventEnter = (e, todoTitle, todoTimerMin, todoTimerSec) => {
     if (e.keyCode === 13) {
       if (
         todoTitle &&
-        (Number(todoTimerMin) || Number(todoTimerMin) === 0) &&
-        (Number(todoTimerSec) || Number(todoTimerSec) === 0) &&
-        (todoTimerMin.length <= 3 || todoTimerSec <= 3)
+        (Number(todoTimerMin) || Number(todoTimerSec)) &&
+        todoTimerMin.length <= 3 &&
+        todoTimerSec.length <= 3
       ) {
         this.props.eventCreate(todoTitle, Number(todoTimerMin) + Math.floor(todoTimerSec / 60), todoTimerSec % 60);
         this.setState({
@@ -47,7 +47,7 @@ export default class NewTaskForm extends React.Component {
       <form className="new-todo-form" onKeyDown={(e) => this.eventEnter(e, todoTitle, todoTimerMin, todoTimerSec)}>
         <input
           className="new-todo"
-          placeholder="What needs to be done?"
+          placeholder="What needs to b done?"
           value={this.state.todoTitle}
           onChange={(e) => this.constrolledInput(e, 'todoTitle')}
         />
