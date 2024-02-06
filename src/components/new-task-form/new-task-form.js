@@ -47,7 +47,7 @@ export default class NewTaskForm extends React.Component {
       <form className="new-todo-form" onKeyDown={(e) => this.eventEnter(e, todoTitle, todoTimerMin, todoTimerSec)}>
         <input
           className="new-todo"
-          placeholder="What needs to b done?"
+          placeholder="What needs to be done?"
           value={this.state.todoTitle}
           onChange={(e) => this.constrolledInput(e, 'todoTitle')}
         />
