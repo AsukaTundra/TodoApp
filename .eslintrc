@@ -29,6 +29,7 @@
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
     "no-param-reassign": ["error", { "props": false }],
     "react/destructuring-assignment": 0,
+    "consistent-return": 0,
     "react/forbid-prop-types": ["error", { "forbid": ["any"], "checkChildContextTypes": false }],
     "import/no-unresolved": [2, { "caseSensitive": false }],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],

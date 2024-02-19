@@ -26,6 +26,8 @@ function TaskList({ todoData, filter, eventStatusEdit, eventDiscriptionEdit, eve
   return <ul className="todo-list">{elements}</ul>;
 }
 
+export default TaskList;
+
 TaskList.defaultProps = {
   todoData: [],
   filter: 'All',
@@ -41,5 +43,3 @@ TaskList.propTypes = {
   eventDiscriptionEdit: PropTypes.func,
   eventDelete: PropTypes.func,
 };
-
-export default TaskList;
