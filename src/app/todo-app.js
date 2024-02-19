@@ -21,7 +21,7 @@ function TodoApp() {
     } else {
       newArray[index].className = 'view';
     }
-    setTodoData(newArray);
+    setTimeout(() => setTodoData(newArray), 0);
   };
 
   const eventDiscriptionEdit = (id, newDiscription) => {

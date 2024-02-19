@@ -4,7 +4,6 @@ import './task-list.css';
 import Task from '../task/task';
 
 function TaskList({ todoData, filter, eventStatusEdit, eventDiscriptionEdit, eventDelete }) {
-  // создаем отображаемые элементы
   const elements = todoData.map((item) => {
     const { id, className, discription, timeCreated, todoTimerMin, todoTimerSec } = item;
     return (

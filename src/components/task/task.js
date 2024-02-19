@@ -1,3 +1,137 @@
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+
+import './task.css';
+
+function Task({
+  filter,
+  className,
+  discription,
+  timeCreated,
+  todoTimerMin,
+  todoTimerSec,
+  eventStatusEdit,
+  eventDiscriptionEdit,
+  eventDelete,
+}) {
+  const [timerActive, setTimerActive] = useState(false);
+  const [timer, setTimer] = useState({ min: todoTimerMin, sec: todoTimerSec });
+
+  useEffect(() => {
+    if (className === 'completed') {
+      setTimerActive(false);
+      setTimer({ min: 0, sec: 0 });
+    }
+  }, [className]);
+
+  useEffect(() => {
+    let intervalId;
+    if (timerActive) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => {
+          if (className === 'completed') {
+            clearInterval(intervalId);
+            return { min: 0, sec: 0 };
+          }
+          if (prevTimer.min === 0 && prevTimer.sec === 0) {
+            clearInterval(intervalId);
+            eventStatusEdit();
+            return { min: 0, sec: 0 };
+          }
+          if (prevTimer.sec === 0) {
+            return { min: prevTimer.min - 1, sec: 59 };
+          }
+          return { ...prevTimer, sec: prevTimer.sec - 1 };
+        });
+      }, 1000);
+    }
+    return () => clearInterval(intervalId);
+  }, [timerActive, className, eventStatusEdit]);
+
+  const timerPlay = () => {
+    setTimerActive(true);
+  };
+
+  const timerPause = () => {
+    setTimerActive(false);
+  };
+
+  const eventEnter = (e) => {
+    if (e.keyCode === 13) {
+      eventDiscriptionEdit(e.target.value);
+    }
+  };
+
+  const time = formatDistanceToNow(timeCreated, { addSuffix: true });
+
+  let filtredClassName = className;
+  if (filter === 'Active' && className === 'completed') {
+    filtredClassName = `${className} dspl-none`;
+  }
+  if (filter === 'Completed' && className !== 'completed') {
+    filtredClassName = `${className} dspl-none`;
+  }
+
+  return (
+    <li className={filtredClassName}>
+      <div className="view">
+        <input
+          className="toggle"
+          type="checkbox"
+          checked={className !== 'view'}
+          onClick={() => {
+            eventStatusEdit();
+          }}
+          readOnly
+        />
+        <label htmlFor="task">
+          <span className="title">{discription}</span>
+          <span className="created">{time}</span>
+          <span className="description">
+            <button aria-label="button-play" type="button" className="icon icon-play" onClick={() => timerPlay()} />
+            <button aria-label="button-pause" type="button" className="icon icon-pause" onClick={() => timerPause()} />
+            <p className="timer">
+              {timer.min.toString().length === 1 ? `0${timer.min}` : timer.min}:
+              {timer.sec.toString().length === 1 ? `0${timer.sec}` : timer.sec}
+            </p>
+          </span>
+        </label>
+        <button type="button" aria-label="Edit" className="icon icon-edit" onClick={eventDiscriptionEdit} />
+        <button type="button" aria-label="Destroy" className="icon icon-destroy" onClick={eventDelete} />
+      </div>
+      <input type="text" className="edit" defaultValue={discription} onKeyDown={eventEnter} />
+    </li>
+  );
+}
+
+export default Task;
+
+Task.defaultProps = {
+  filter: 'All',
+  className: 'view',
+  discription: '',
+  timeCreated: Date.now(),
+  todoTimerMin: 0,
+  todoTimerSec: 0,
+  eventStatusEdit: () => {},
+  eventDiscriptionEdit: () => {},
+  eventDelete: () => {},
+};
+
+Task.propTypes = {
+  filter: PropTypes.string,
+  className: PropTypes.string,
+  discription: PropTypes.string,
+  timeCreated: PropTypes.number,
+  todoTimerMin: PropTypes.number,
+  todoTimerSec: PropTypes.number,
+  eventStatusEdit: PropTypes.func,
+  eventDiscriptionEdit: PropTypes.func,
+  eventDelete: PropTypes.func,
+};
+
+/*
 import React from 'react';
 import PropTypes from 'prop-types';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
@@ -179,3 +313,4 @@ Task.propTypes = {
   eventDiscriptionEdit: PropTypes.func,
   eventDelete: PropTypes.func,
 };
+*/
